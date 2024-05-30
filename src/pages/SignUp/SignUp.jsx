@@ -3,9 +3,10 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const SignUp = () => {
-  const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+  const { createUser, signInWithGoogle, updateUserProfile, loading, setLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,12 +22,14 @@ const SignUp = () => {
     formData.append("image", image);
 
     try {
+      setLoading(true);
+
       // 1. upload imgae and get image
       const { data } = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`, formData);
 
       // 2. user registration
       const result = await createUser(email, password);
-      console.log(result);
+      console.log(result.user);
 
       // 3. save username and photo to firebase
       await updateUserProfile(name, data.data.display_url);
@@ -34,6 +37,7 @@ const SignUp = () => {
       toast.success("Sign up successful");
     } catch (error) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
   return (
@@ -97,8 +101,8 @@ const SignUp = () => {
           </div>
 
           <div>
-            <button type="submit" className="bg-rose-500 w-full rounded-md py-3 text-white">
-              Continue
+            <button disabled={loading} type="submit" className="bg-rose-500 w-full rounded-md py-3 text-white">
+              {loading ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Continue"}
             </button>
           </div>
         </form>
