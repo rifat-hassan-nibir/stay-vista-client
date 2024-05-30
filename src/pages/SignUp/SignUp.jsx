@@ -1,18 +1,40 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const email = form.password.value;
-    const image = form.image.files;
-    console.log(name, email);
-    console.log(image);
+    const email = form.email.value;
+    const password = form.password.value;
+    const image = form.image.files[0];
+
+    // set image in form data
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      // 1. upload imgae and get image
+      const { data } = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`, formData);
+
+      // 2. user registration
+      const result = await createUser(email, password);
+      console.log(result);
+
+      // 3. save username and photo to firebase
+      await updateUserProfile(name, data.data.display_url);
+      navigate("/");
+      toast.success("Sign up successful");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <div className="flex justify-center items-center min-h-screen">
