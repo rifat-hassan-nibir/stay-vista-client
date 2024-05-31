@@ -6,11 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
+import { DateRange } from "react-date-range";
+import { useState } from "react";
 
 const RoomDetails = () => {
   const { id } = useParams();
   const axiosCommon = useAxiosCommon();
 
+  // Load room data from db
   const { data: room, isLoading } = useQuery({
     queryKey: ["room", id],
     queryFn: async () => {
