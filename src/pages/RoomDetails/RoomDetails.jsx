@@ -6,8 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
-import { DateRange } from "react-date-range";
-import { useState } from "react";
 
 const RoomDetails = () => {
   const { id } = useParams();
