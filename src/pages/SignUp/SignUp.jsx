@@ -28,8 +28,8 @@ const SignUp = () => {
       const { data } = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`, formData);
 
       // 2. user registration
+      // eslint-disable-next-line no-unused-vars
       const result = await createUser(email, password);
-      console.log(result.user);
 
       // 3. save username and photo to firebase
       await updateUserProfile(name, data.data.display_url);
