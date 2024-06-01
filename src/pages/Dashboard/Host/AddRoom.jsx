@@ -3,15 +3,32 @@ import AddRoomForm from "../../../components/Form/AddRoomForm";
 import useAuth from "../../../hooks/useAuth";
 import { imageUpload } from "../../../api/utils";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const AddRoom = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+
   const [imagePreview, setImagePreview] = useState();
-  const [imageText, setImageText] = useState("Upload you image");
   const [dates, setDates] = useState({
     startDate: new Date(),
     endDate: null,
     key: "selection",
+  });
+
+  // Tanstack query mutation
+  const { mutateAsync } = useMutation({
+    mutationFn: async (roomData) => {
+      const { data } = axiosSecure.post("/room", roomData);
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Room added successfully");
+      navigate("/");
+    },
   });
 
   //   Date range handler
@@ -56,7 +73,8 @@ const AddRoom = () => {
         image: image_url,
         host,
       };
-      console.table(roomData);
+
+      await mutateAsync(roomData);
     } catch (error) {
       toast.error(error.message);
     }
