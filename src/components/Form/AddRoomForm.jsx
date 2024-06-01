@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { DateRange } from "react-date-range";
 import { categories } from "../Categories/CategoriesData";
 
-const AddRoomForm = () => {
+const AddRoomForm = ({ dates, handleDates, handleSubmit }) => {
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-6">
             <div className="space-y-1 text-sm">
@@ -39,13 +40,13 @@ const AddRoomForm = () => {
                 Select Availability Range
               </label>
               {/* Calender */}
-              {/* <DateRange
+              <DateRange
                 rangeColors={["#F43F5E"]}
                 editableDateInputs={true}
-                onChange={(item) => setState([item.selection])}
+                onChange={(item) => handleDates(item)}
                 moveRangeOnFirstSelection={false}
-                ranges={state}
-              /> */}
+                ranges={[dates]}
+              />
             </div>
           </div>
           <div className="space-y-6">
