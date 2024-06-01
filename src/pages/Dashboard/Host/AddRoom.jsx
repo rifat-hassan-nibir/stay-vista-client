@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 
 const AddRoom = () => {
   const { user } = useAuth();
+  const [imagePreview, setImagePreview] = useState();
+  const [imageText, setImageText] = useState("Upload you image");
   const [dates, setDates] = useState({
     startDate: new Date(),
     endDate: null,
@@ -24,8 +26,8 @@ const AddRoom = () => {
     const location = form.location.value;
     const category = form.category.value;
     const title = form.title.value;
-    const to = "";
-    const from = "";
+    const to = dates.startDate;
+    const from = dates.endDate;
     const price = form.price.value;
     const guests = form.total_guest.value;
     const bathrooms = form.bathrooms.value;
@@ -40,7 +42,21 @@ const AddRoom = () => {
 
     try {
       const image_url = await imageUpload(image);
-      console.log(image_url);
+      const roomData = {
+        location,
+        category,
+        title,
+        to,
+        from,
+        price,
+        guests,
+        bathrooms,
+        description,
+        bedrooms,
+        image: image_url,
+        host,
+      };
+      console.table(roomData);
     } catch (error) {
       toast.error(error.message);
     }
@@ -48,7 +64,13 @@ const AddRoom = () => {
 
   return (
     <div>
-      <AddRoomForm dates={dates} handleDates={handleDates} handleSubmit={handleSubmit}></AddRoomForm>
+      <AddRoomForm
+        dates={dates}
+        handleDates={handleDates}
+        handleSubmit={handleSubmit}
+        setImagePreview={setImagePreview}
+        imagePreview={imagePreview}
+      ></AddRoomForm>
     </div>
   );
 };
