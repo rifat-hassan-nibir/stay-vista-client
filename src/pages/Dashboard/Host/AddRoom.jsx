@@ -15,7 +15,7 @@ const AddRoom = () => {
   const [imagePreview, setImagePreview] = useState();
   const [dates, setDates] = useState({
     startDate: new Date(),
-    endDate: null,
+    endDate: new Date(),
     key: "selection",
   });
 
@@ -27,7 +27,7 @@ const AddRoom = () => {
     },
     onSuccess: () => {
       toast.success("Room added successfully");
-      navigate("/");
+      navigate("/dashboard/my-listings");
     },
   });
 

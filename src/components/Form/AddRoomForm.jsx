@@ -83,7 +83,7 @@ const AddRoomForm = ({ dates, handleDates, handleSubmit, setImagePreview, imageP
                       Upload Image
                     </div>
                   </label>
-                  {imagePreview && <img className="size-16" src={imagePreview} alt="" />}
+                  {imagePreview && <img className="size-16" src={imagePreview} />}
                 </div>
               </div>
             </div>
