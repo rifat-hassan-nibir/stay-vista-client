@@ -3,12 +3,17 @@ import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import RoomDataRow from "../../../components/Dashboard/Table Rows/RoomDataRow";
 
 const MyListings = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: rooms = [], isLoading } = useQuery({
+  const {
+    data: rooms = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["my-listings", user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/my-listings/${user?.email}`);
@@ -17,6 +22,11 @@ const MyListings = () => {
   });
 
   if (isLoading) return <LoadingSpinner />;
+
+  // Delete listing
+  const handleDelete = (id) => {
+    console.log(id);
+  };
 
   return (
     <>
@@ -75,7 +85,7 @@ const MyListings = () => {
                     </th>
                   </tr>
                   {rooms?.map((room) => (
-                    <p>{room.title}</p>
+                    <RoomDataRow room={room} refetch={refetch} key={room._id} handleDelete={handleDelete}></RoomDataRow>
                   ))}
                 </thead>
                 <tbody>{/* Room row data */}</tbody>
