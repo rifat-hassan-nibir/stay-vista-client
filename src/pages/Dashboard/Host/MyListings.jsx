@@ -1,6 +1,23 @@
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
 
 const MyListings = () => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const { data: rooms = [], isLoading } = useQuery({
+    queryKey: ["my-listings", user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/my-listings/${user?.email}`);
+      return data;
+    },
+  });
+
+  if (isLoading) return <LoadingSpinner />;
+
   return (
     <>
       <Helmet>
@@ -57,6 +74,9 @@ const MyListings = () => {
                       Update
                     </th>
                   </tr>
+                  {rooms?.map((room) => (
+                    <p>{room.title}</p>
+                  ))}
                 </thead>
                 <tbody>{/* Room row data */}</tbody>
               </table>
