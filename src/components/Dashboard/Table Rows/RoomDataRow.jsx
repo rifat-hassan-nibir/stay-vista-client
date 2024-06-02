@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 import { useState } from "react";
-import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import DeleteModal from "../../Modal/DeleteModal";
 
-const RoomDataRow = ({ room, refetch, handleDelete }) => {
+const RoomDataRow = ({ room, refetch, handleDelete, id }) => {
+  // for delete modal
   let [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
@@ -45,7 +46,7 @@ const RoomDataRow = ({ room, refetch, handleDelete }) => {
           </button>
         </span>
         {/* Delete modal */}
-        <DeleteModal isOpen={isOpen} closeModal={closeModal}></DeleteModal>
+        <DeleteModal isOpen={isOpen} closeModal={closeModal} handleDelete={handleDelete} id={id}></DeleteModal>
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
