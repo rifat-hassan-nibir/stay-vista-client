@@ -4,17 +4,42 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import avatarImg from "../../../assets/images/placeholder.jpg";
-import HostModal from "../../Modal/HostRequestModal";
 import HostRequestModal from "../../Modal/HostRequestModal";
+import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   // for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  // modal yes button function
+  const modalHandler = async () => {
+    console.log("I want to be a host");
+    try {
+      const currentUser = {
+        email: user?.email,
+        role: "guest",
+        status: "Requested",
+      };
+      const { data } = await axiosSecure.put("/user", currentUser);
+      console.log(data);
+      if (data.modifiedCount > 0) {
+        toast.success("Success! Wait for admin confirmation.");
+      } else {
+        toast.success("Please wait for admin approval.");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      closeModal();
+    }
   };
 
   return (
@@ -48,7 +73,7 @@ const Navbar = () => {
                   )}
                 </div>
                 {/* Modal */}
-                <HostRequestModal isOpen={isModalOpen} closeModal={closeModal}></HostRequestModal>
+                <HostRequestModal isOpen={isModalOpen} closeModal={closeModal} modalHandler={modalHandler}></HostRequestModal>
 
                 {/* Dropdown btn */}
                 <div

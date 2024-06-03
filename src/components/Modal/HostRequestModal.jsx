@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { Dialog, Transition, TransitionChild, DialogTitle, DialogPanel } from "@headlessui/react";
 import { Fragment } from "react";
 
-const HostRequestModal = ({ closeModal, isOpen }) => {
+const HostRequestModal = ({ closeModal, isOpen, modalHandler }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -40,6 +41,10 @@ const HostRequestModal = ({ closeModal, isOpen }) => {
                 <div className="flex mt-2 justify-around">
                   <button
                     type="button"
+                    onClick={() => {
+                      modalHandler();
+                      closeModal();
+                    }}
                     className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                   >
                     Continue
