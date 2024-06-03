@@ -9,6 +9,7 @@ import { MdHomeWork } from "react-icons/md";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import MenuItem from "./Menu/MenuItem";
+import HostMenu from "./Menu/HostMenu";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
@@ -72,11 +73,8 @@ const Sidebar = () => {
               {/* Statistics */}
               <MenuItem label="Statistics" address="/dashboard" icon={BsGraphUp} />
 
-              {/* Add Room */}
-              <MenuItem label="Add Room" address="add-room" icon={BsFillHouseAddFill} />
-
-              {/* My Listing */}
-              <MenuItem label="My Listings" address="my-listings" icon={MdHomeWork} />
+              {/* Host Menu */}
+              <HostMenu></HostMenu>
             </nav>
           </div>
         </div>
