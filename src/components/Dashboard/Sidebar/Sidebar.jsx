@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
-import { BsFillHouseAddFill } from "react-icons/bs";
 import { AiOutlineBars } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { MdHomeWork } from "react-icons/md";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import MenuItem from "./Menu/MenuItem";
 import HostMenu from "./Menu/HostMenu";
+import AdminMenu from "./Menu/AdminMenu";
+import GuestMenu from "./Menu/GuestMenu";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
-  const [role, isLoading] = useRole();
+  const [role] = useRole();
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -74,7 +74,9 @@ const Sidebar = () => {
               <MenuItem label="Statistics" address="/dashboard" icon={BsGraphUp} />
 
               {/* Host Menu */}
-              <HostMenu></HostMenu>
+              {role === "guest" && <GuestMenu></GuestMenu>}
+              {role === "host" && <HostMenu></HostMenu>}
+              {role === "admin" && <AdminMenu></AdminMenu>}
             </nav>
           </div>
         </div>
