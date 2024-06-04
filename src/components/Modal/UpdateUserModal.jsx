@@ -63,7 +63,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen, modalHandler, user }) => {
                           {roles.map((role, roleIdx) => (
                             <ListboxOption
                               key={roleIdx}
-                              className="relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900 data-[focus]:bg-amber-100  data-[focus]:text-amber-900"
+                              className="relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900 data-[focus]:bg-amber-100 data-[focus]:text-amber-900"
                               value={role}
                             >
                               {({ selected }) => (
