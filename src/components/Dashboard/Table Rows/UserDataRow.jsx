@@ -24,13 +24,17 @@ const UserDataRow = ({ user, refetch }) => {
 
   // modal handler
   const modalHandler = async (selected) => {
-    const user = {
+    // admin can only change the role of an user if they request for a role change
+    if (user.status === "Verified") return toast.error("User did not request for a role change yet");
+
+    // change user role
+    const userRole = {
       role: selected,
       status: "Verified",
     };
 
     try {
-      await mutateAsync(user);
+      await mutateAsync(userRole);
     } catch (error) {
       toast.error(error.message);
     }
